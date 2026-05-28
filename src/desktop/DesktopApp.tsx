@@ -68,7 +68,6 @@ export function DesktopApp() {
     [activeChapter.id, activeChapter.visual.type, isLearnChapter],
   );
 
-  const hasHeroArtifact = Boolean(artifactMap.hero);
   const hasVisualArtifact = Boolean(artifactMap.visual);
 
   const progressPercent = Math.round((completed.size / chapters.length) * 100);
@@ -378,17 +377,7 @@ export function DesktopApp() {
           </>
         ) : (
           <>
-            <section
-              aria-labelledby="chapter-heading"
-              className={`hero-panel${hasHeroArtifact ? ' hero-panel--with-artifact' : ''}`}
-            >
-              {hasHeroArtifact && (
-                <PlacedChapterArtifact
-                  className="hero-panel__artifact"
-                  spec={artifactMap.hero}
-                  variant="hero"
-                />
-              )}
+            <section aria-labelledby="chapter-heading" className="hero-panel">
               <div className="hero-panel__copy">
                 <p className="eyebrow">Chapter {activeChapter.number}</p>
                 <h2 id="chapter-heading">{activeChapter.title}</h2>
