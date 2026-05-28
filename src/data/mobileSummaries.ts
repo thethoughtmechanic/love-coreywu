@@ -51,23 +51,28 @@ export function buildLearnPages(chapter: Chapter): LearnPage[] {
       title: 'Core teaching',
       sections: [
         { label: 'Principle', body: chapter.principle },
-        { label: 'Remember this', body: chapter.rememberThis },
         { label: 'What it teaches', bullets: chapter.whatItTeaches },
       ],
     },
     {
-      title: 'Tatkin frame',
-      sections: [{ label: 'How Tatkin puts it', body: chapter.tatkinFrame }],
+      title: 'From the book',
+      sections: [
+        { label: chapter.bookStory.label, body: chapter.bookStory.setup },
+        { label: 'Tatkin\'s point', body: chapter.bookStory.tatkinPoint },
+      ],
     },
     {
       title: 'In your relationship',
       sections: [
-        {
-          label: chapter.bookStory.label,
-          body: `${chapter.bookStory.setup} ${chapter.bookStory.tatkinPoint}`,
-        },
-        { label: 'Recognize it', bullets: chapter.recognizeIt },
+        { label: 'Watch for', bullets: chapter.recognizeIt },
         { label: 'Partner move', body: chapter.partnerMove },
+      ],
+    },
+    {
+      title: 'Try it together',
+      sections: [
+        { label: chapter.practice.title, body: chapter.practice.whenToUse },
+        { label: 'Steps', bullets: chapter.practice.steps },
       ],
     },
   ];

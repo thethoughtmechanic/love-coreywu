@@ -12,7 +12,7 @@ export type ArtifactKind =
   | 'eye-gaze'
   | 'healing-hands';
 
-export type ArtifactPlacement = 'hero' | 'visual';
+export type ArtifactPlacement = 'hero';
 
 export type ArtifactVariant = ArtifactPlacement | 'inline';
 
@@ -48,7 +48,7 @@ const byChapterId: Record<string, ChapterArtifactSpec[]> = {
   'becoming-experts': [
     {
       kind: 'expert-cards',
-      placement: ['hero', 'visual'],
+      placement: ['hero'],
       label: 'Vulnerability paired with antidote',
     },
   ],
@@ -76,7 +76,7 @@ const byChapterId: Record<string, ChapterArtifactSpec[]> = {
   'fighting-well': [
     {
       kind: 'same-side-table',
-      placement: ['hero', 'visual'],
+      placement: ['hero'],
       label: 'Problem between you, not inside either',
     },
   ],
@@ -109,7 +109,7 @@ const byVisualType: Partial<Record<VisualType, ArtifactKind>> = {
   'healing-touch': 'healing-hands',
 };
 
-export const ARTIFACT_PLACEMENTS: ArtifactPlacement[] = ['hero', 'visual'];
+export const ARTIFACT_PLACEMENTS: ArtifactPlacement[] = ['hero'];
 
 export function getChapterArtifacts(
   chapterId: string,

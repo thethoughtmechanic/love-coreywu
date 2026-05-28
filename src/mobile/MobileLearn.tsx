@@ -1,6 +1,5 @@
-import { useCallback, useState, type TouchEvent } from 'react';
+import { useCallback, useEffect, useState, type TouchEvent } from 'react';
 import {
-  ArrowLeft,
   Brain,
   ChevronLeft,
   ChevronRight,
@@ -18,6 +17,7 @@ import {
   learnChapters,
   type LearnChapterMobile,
   type LearnIconKey,
+  type LearnPageSection,
 } from '../data/mobileSummaries';
 
 const iconMap = {
@@ -36,6 +36,24 @@ const iconMap = {
 function ChapterIcon({ icon }: { icon: LearnIconKey }) {
   const Icon = iconMap[icon];
   return <Icon aria-hidden="true" size={22} strokeWidth={1.75} />;
+}
+
+function SectionBlock({ section }: { section: LearnPageSection }) {
+  const isSteps = section.label === 'Steps';
+
+  return (
+    <section className="learn-detail__section">
+      <h3>{section.label}</h3>
+      {section.body && <p>{section.body}</p>}
+      {section.bullets && (
+        <ul className={isSteps ? 'learn-detail__steps' : undefined}>
+          {section.bullets.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
 }
 
 function LearnDetail({
@@ -75,65 +93,85 @@ function LearnDetail({
   );
 
   return (
-    <div className="mobile-detail mobile-detail--learn">
-      <div className="mobile-detail__toolbar">
-        <button className="mobile-detail__back" onClick={onBack} type="button">
-          <ArrowLeft aria-hidden="true" size={18} />
-          Back
+    <div className="mobile-screen mobile-screen--learn">
+      <header className="mobile-screen__nav">
+        <button
+          aria-label="Back to chapters"
+          className="mobile-screen__back"
+          onClick={onBack}
+          type="button"
+        >
+          <ChevronLeft aria-hidden="true" size={22} strokeWidth={2} />
+          <span>Learn</span>
         </button>
-        <p className="mobile-detail__meta">
-          Ch. {chapter.number} · {chapter.title}
-        </p>
-      </div>
+        <span className="mobile-screen__nav-label">Ch. {chapter.number}</span>
+      </header>
 
       <div
-        className="mobile-detail__body"
+        className="mobile-screen__scroll"
         onTouchEnd={onTouchEnd}
         onTouchStart={onTouchStart}
       >
-        <p className="eyebrow">
-          {pageIndex + 1} of {chapter.pages.length}
-        </p>
-        <h2 className="mobile-detail__title">{page.title}</h2>
+        <header className="mobile-screen__hero">
+          <span className="learn-grid__icon learn-grid__icon--hero">
+            <ChapterIcon icon={chapter.icon} />
+          </span>
+          <p className="eyebrow">Chapter {chapter.number}</p>
+          <h2 className="mobile-screen__title">{chapter.title}</h2>
+          <p className="mobile-screen__remember">{chapter.rememberThis}</p>
+        </header>
 
-        {page.sections.map((section) => (
-          <section className="learn-detail__section" key={section.label}>
-            <h3>{section.label}</h3>
-            {section.body && <p>{section.body}</p>}
-            {section.bullets && (
-              <ul>
-                {section.bullets.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
+        <article aria-labelledby="learn-page-heading" className="mobile-card">
+          <div className="mobile-card__meta">
+            <span className="mobile-card__page">
+              {pageIndex + 1} of {chapter.pages.length}
+            </span>
+            <span aria-hidden="true" className="mobile-card__dots">
+              {chapter.pages.map((_, index) => (
+                <span className={index === pageIndex ? 'is-active' : ''} key={index} />
+              ))}
+            </span>
+          </div>
+          <h3 className="mobile-card__heading" id="learn-page-heading">
+            {page.title}
+          </h3>
+          <div className="mobile-card__body">
+            {page.sections.map((section) => (
+              <SectionBlock key={section.label} section={section} />
+            ))}
+          </div>
+        </article>
       </div>
 
-      <footer className="mobile-detail__pager">
+      <footer className="mobile-screen__pager">
         <button
-          className="mobile-detail__pager-btn"
+          aria-label="Previous page"
+          className="mobile-screen__pager-btn mobile-screen__pager-btn--prev"
           disabled={isFirst}
           onClick={goPrev}
           type="button"
         >
-          <ChevronLeft aria-hidden="true" size={18} />
-          Back
+          <ChevronLeft aria-hidden="true" size={20} strokeWidth={2} />
         </button>
-        <div aria-hidden="true" className="mobile-detail__dots">
-          {chapter.pages.map((_, index) => (
-            <span className={index === pageIndex ? 'is-active' : ''} key={index} />
-          ))}
-        </div>
+        <p className="mobile-screen__pager-label">
+          {page.title}
+        </p>
         {isLast ? (
-          <button className="mobile-detail__pager-btn" onClick={onBack} type="button">
+          <button
+            className="mobile-screen__pager-btn mobile-screen__pager-btn--next mobile-screen__pager-btn--done"
+            onClick={onBack}
+            type="button"
+          >
             Done
           </button>
         ) : (
-          <button className="mobile-detail__pager-btn" onClick={goNext} type="button">
-            Next
-            <ChevronRight aria-hidden="true" size={18} />
+          <button
+            aria-label="Next page"
+            className="mobile-screen__pager-btn mobile-screen__pager-btn--next"
+            onClick={goNext}
+            type="button"
+          >
+            <ChevronRight aria-hidden="true" size={20} strokeWidth={2} />
           </button>
         )}
       </footer>
@@ -141,9 +179,18 @@ function LearnDetail({
   );
 }
 
-export function MobileLearn() {
+type MobileLearnProps = {
+  onDetailChange?: (inDetail: boolean) => void;
+};
+
+export function MobileLearn({ onDetailChange }: MobileLearnProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = learnChapters.find((chapter) => chapter.chapterId === selectedId);
+
+  useEffect(() => {
+    onDetailChange?.(Boolean(selected));
+    return () => onDetailChange?.(false);
+  }, [onDetailChange, selected]);
 
   if (selected) {
     return <LearnDetail chapter={selected} onBack={() => setSelectedId(null)} />;
@@ -171,7 +218,7 @@ export function MobileLearn() {
               <span className="learn-grid__icon">
                 <ChapterIcon icon={chapter.icon} />
               </span>
-              <span className="learn-grid__number">{chapter.number}</span>
+              <span className="learn-grid__number">Ch. {chapter.number}</span>
               <strong>{chapter.title}</strong>
               <span className="learn-grid__remember">{chapter.rememberThis}</span>
             </button>

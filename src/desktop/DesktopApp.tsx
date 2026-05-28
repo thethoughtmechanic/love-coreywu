@@ -13,9 +13,7 @@ import {
   Sparkles,
   Users,
 } from 'lucide-react';
-import { PlacedChapterArtifact } from '../components/ChapterArtifact';
 import { ChapterVisual } from '../components/ChapterVisual';
-import { getChapterArtifactMap } from '../data/chapterArtifacts';
 import type { MirrorLaunchContext } from '../data/mirrorPresets';
 import { chapters, MIRROR_ID, OVERVIEW_ID, PRACTICE_ID, principles } from '../data/wiredForLove';
 import { MirrorTab, type MirrorPhase } from '../mirror/MirrorTab';
@@ -59,16 +57,6 @@ export function DesktopApp() {
     () => chapters.find((chapter) => chapter.id === activeId) ?? chapters[0],
     [activeId],
   );
-
-  const artifactMap = useMemo(
-    () =>
-      isLearnChapter
-        ? getChapterArtifactMap(activeChapter.id, activeChapter.visual.type)
-        : {},
-    [activeChapter.id, activeChapter.visual.type, isLearnChapter],
-  );
-
-  const hasVisualArtifact = Boolean(artifactMap.visual);
 
   const progressPercent = Math.round((completed.size / chapters.length) * 100);
 
@@ -291,7 +279,7 @@ export function DesktopApp() {
                 className={`chapter-link ${isActive ? 'is-active' : ''}`}
                 key={chapter.id}
                 onClick={() => selectChapter(chapter.id)}
-                title={navCollapsed ? label : undefined}
+                title={navCollapsed ? label : `${chapter.title}: ${chapter.principle}`}
                 type="button"
               >
                 <span className="chapter-link__number">{chapter.number}</span>
@@ -402,17 +390,8 @@ export function DesktopApp() {
                 <p className="eyebrow">Visual Model</p>
                 <p>{activeChapter.visual.caption}</p>
               </div>
-              <div
-                className={`visual-panel__body visual-model-layout${hasVisualArtifact ? ' visual-model-layout--with-artifact' : ''}`}
-              >
-                {hasVisualArtifact && (
-                  <div className="artifact-slot artifact-slot--visual">
-                    <PlacedChapterArtifact spec={artifactMap.visual} variant="visual" />
-                  </div>
-                )}
-                <div className="visual-model-layout__content">
-                  <ChapterVisual type={activeChapter.visual.type} />
-                </div>
+              <div className="visual-panel__body">
+                <ChapterVisual type={activeChapter.visual.type} />
               </div>
             </section>
 
@@ -443,12 +422,12 @@ export function DesktopApp() {
               </ul>
             </section>
 
-            <section aria-label="Recognize it" className="guide-section guide-section--recognize">
+            <section aria-label="What to watch for" className="guide-section guide-section--recognize">
               <div className="guide-section__header">
                 <Eye size={20} />
                 <div>
-                  <p className="eyebrow">Recognize It</p>
-                  <h3>When this chapter is live</h3>
+                  <p className="eyebrow">Watch For</p>
+                  <h3>How it shows up</h3>
                 </div>
               </div>
               <ul className="guide-list">

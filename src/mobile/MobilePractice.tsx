@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { chapters } from '../data/wiredForLove';
 import {
   chapterMatchesTheme,
@@ -26,41 +26,47 @@ function PracticeDetail({
   const { practice } = chapter;
 
   return (
-    <div className="mobile-detail mobile-detail--practice">
-      <div className="mobile-detail__toolbar">
-        <button className="mobile-detail__back" onClick={onBack} type="button">
-          <ArrowLeft aria-hidden="true" size={18} />
-          Back
+    <div className="mobile-screen mobile-screen--practice">
+      <header className="mobile-screen__nav">
+        <button
+          aria-label="Back to practice list"
+          className="mobile-screen__back"
+          onClick={onBack}
+          type="button"
+        >
+          <ChevronLeft aria-hidden="true" size={22} strokeWidth={2} />
+          <span>Practice</span>
         </button>
-        <p className="mobile-detail__meta">
-          Ch. {chapter.number} · {chapter.title}
-        </p>
-      </div>
+        <span className="mobile-screen__nav-label">Ch. {chapter.number}</span>
+      </header>
 
-      <div className="mobile-detail__body">
-        <h2 className="mobile-detail__title">{practice.title}</h2>
+      <div className="mobile-screen__scroll">
+        <header className="mobile-screen__hero mobile-screen__hero--compact">
+          <p className="eyebrow">Chapter {chapter.number}</p>
+          <h2 className="mobile-screen__title">{practice.title}</h2>
+          <p className="mobile-screen__subtitle">{chapter.title}</p>
+        </header>
 
-        <section className="practice-detail__block">
-          <h3>What it is</h3>
-          <p>
-            <strong>{practice.title}</strong>. {chapter.subtitle}. From Tatkin&apos;s chapter{' '}
-            {chapter.number} exercise spine.
-          </p>
-        </section>
+        <article className="mobile-card">
+          <div className="mobile-card__body">
+            <section className="practice-detail__block">
+              <h3>When to use it</h3>
+              <p>{practice.whenToUse}</p>
+            </section>
 
-        <section className="practice-detail__block">
-          <h3>Why do it</h3>
-          <p>{practice.whenToUse}</p>
-        </section>
-
-        <section className="practice-detail__block">
-          <h3>How</h3>
-          <ol>
-            {practice.steps.map((step) => (
-              <li key={step}>{step}</li>
-            ))}
-          </ol>
-        </section>
+            <section className="practice-detail__block">
+              <h3>Steps</h3>
+              <ol className="practice-detail__steps">
+                {practice.steps.map((step, index) => (
+                  <li key={step}>
+                    <span className="practice-detail__step-num">{index + 1}</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          </div>
+        </article>
       </div>
     </div>
   );
@@ -96,10 +102,19 @@ function PracticeRow({
   );
 }
 
-export function MobilePractice() {
+type MobilePracticeProps = {
+  onDetailChange?: (inDetail: boolean) => void;
+};
+
+export function MobilePractice({ onDetailChange }: MobilePracticeProps) {
   const daily = useMemo(() => practiceOfTheDay(), []);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [activeTheme, setActiveTheme] = useState<PracticeTheme | 'all'>('all');
+
+  useEffect(() => {
+    onDetailChange?.(Boolean(detailId));
+    return () => onDetailChange?.(false);
+  }, [detailId, onDetailChange]);
 
   const availableThemes = useMemo(
     () => themeOrder.filter((theme) => practiceList.some((entry) => chapterMatchesTheme(entry.chapterId, theme))),
@@ -140,7 +155,7 @@ export function MobilePractice() {
         <p className="eyebrow">Practice</p>
         <h2>When the moment fits</h2>
         <p className="mobile-panel__lead">
-          Ten Tatkin exercises from the chapter spine — use when the situation matches, not as
+          Ten Tatkin exercises from the chapter spine. Use when the situation matches, not as
           homework.
         </p>
       </header>

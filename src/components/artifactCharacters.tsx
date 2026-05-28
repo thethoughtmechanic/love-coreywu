@@ -12,7 +12,7 @@ export type FigurePose =
   | 'reach-phone'
   | 'respond-phone'
   | 'sit-table'
-  | 'profile-close'
+  | 'face-close'
   | 'hands-reach'
   | 'hands-offer';
 
@@ -27,26 +27,37 @@ type FigureProps = {
 
 const palette = {
   'partner-a': {
-    top: 'var(--blueprint)',
-    topShade: '#264a5e',
-    bottom: '#1e3d4f',
-    hair: 'var(--accent-dark)',
+    top: 'var(--figure-a-top)',
+    topShade: 'var(--figure-a-shade)',
+    bottom: 'var(--figure-a-bottom)',
+    hair: '#0a0a0a',
     shoe: '#2a211c',
   },
   'partner-b': {
-    top: 'var(--moss)',
-    topShade: '#4f5a3c',
-    bottom: 'var(--accent-dark)',
-    hair: '#3d2e24',
+    top: 'var(--figure-b-top)',
+    topShade: 'var(--figure-b-shade)',
+    bottom: 'var(--figure-b-bottom)',
+    hair: '#0a0a0a',
     shoe: '#2a211c',
   },
   guest: {
-    top: 'var(--ink-muted)',
+    top: 'var(--figure-guest-top)',
     topShade: '#575047',
     bottom: '#464038',
-    hair: '#3a342e',
+    hair: '#1f1a18',
     shoe: '#2a211c',
   },
+};
+
+/** Shared body proportions aligned with Corey's World cast (head ~1:3.5 to torso). */
+const BODY = {
+  shoulderHalf: 9,
+  hipHalf: 7.5,
+  torsoTop: 7,
+  torsoBottom: 38,
+  legHeight: 30,
+  neckW: 6,
+  neckH: 7,
 };
 
 export function GroundShadow({ cx, cy, rx = 18, ry = 4 }: { cx: number; cy: number; rx?: number; ry?: number }) {
@@ -78,14 +89,14 @@ export function Figure({
         <PhoneReach colors={colors} isA={isA} reaching={false} />
       ) : pose === 'sit-table' ? (
         <SitTable colors={colors} isA={isA} isGuest={isGuest} />
-      ) : pose === 'profile-close' ? (
-        <ProfileClose colors={colors} isA={isA} />
+      ) : pose === 'face-close' ? (
+        <FaceClose colors={colors} isA={isA} isGuest={isGuest} />
       ) : pose === 'hands-reach' ? (
         <HandsPose colors={colors} isA={isA} reaching />
       ) : pose === 'hands-offer' ? (
         <HandsPose colors={colors} isA={isA} reaching={false} />
       ) : pose === 'lean-away' ? (
-        <StandingBody colors={colors} isA={isA} isGuest={isGuest} lean={-8} armGap={14} />
+        <StandingBody colors={colors} isA={isA} isGuest={isGuest} lean={-8} armGap={13} />
       ) : pose === 'lean-forward' ? (
         <StandingBody colors={colors} isA={isA} isGuest={isGuest} lean={6} armGap={6} />
       ) : pose === 'standing-close' ? (
@@ -98,6 +109,48 @@ export function Figure({
 }
 
 type ColorSet = (typeof palette)['partner-a'];
+
+function Neck() {
+  return (
+    <rect
+      fill="var(--artifact-skin)"
+      height={BODY.neckH}
+      rx="2"
+      width={BODY.neckW}
+      x={-BODY.neckW / 2}
+      y="0.5"
+    />
+  );
+}
+
+function Torso({ colors, top = BODY.torsoTop, bottom = BODY.torsoBottom }: { colors: ColorSet; top?: number; bottom?: number }) {
+  const sh = BODY.shoulderHalf;
+  const hip = BODY.hipHalf;
+  return (
+    <>
+      <path d={`M-${sh} ${top} L${sh} ${top} L${hip + 0.5} ${bottom} L-${hip + 0.5} ${bottom} Z`} fill={colors.top} />
+      <path
+        d={`M-${sh} ${top} L${sh} ${top} L${sh - 1.5} ${top + 8} L-${sh - 1.5} ${top + 8} Z`}
+        fill={colors.topShade}
+        opacity="0.55"
+      />
+    </>
+  );
+}
+
+function StandingLegs({ colors, compact = false }: { colors: ColorSet; compact?: boolean }) {
+  const legH = compact ? 26 : BODY.legHeight;
+  const legY = BODY.torsoBottom - 2;
+  const footY = legY + legH + 1;
+  return (
+    <>
+      <rect fill={colors.bottom} height={legH} width="4.5" x="-5" y={legY} />
+      <rect fill={colors.bottom} height={legH} width="4.5" x="0.5" y={legY} />
+      <ellipse cx="-2.5" cy={footY} fill={colors.shoe} rx="3.5" ry="1.6" />
+      <ellipse cx="3" cy={footY} fill={colors.shoe} rx="3.5" ry="1.6" />
+    </>
+  );
+}
 
 function StandingBody({
   colors,
@@ -114,19 +167,19 @@ function StandingBody({
   armGap: number;
   compact?: boolean;
 }) {
-  const legH = compact ? 24 : 28;
+  const legH = compact ? 26 : BODY.legHeight;
+  const footY = BODY.torsoBottom - 2 + legH + 1;
+  const armLen = compact ? 15 : 18;
+
   return (
     <g transform={`rotate(${lean})`}>
-      <GroundShadow cx={0} cy={legH + 10} rx={compact ? 12 : 14} />
-      <rect fill={colors.bottom} height={legH} width="4.5" x="-5" y={compact ? 8 : 6} />
-      <rect fill={colors.bottom} height={legH} width="4.5" x="0.5" y={compact ? 8 : 6} />
-      <ellipse cx="-2.5" cy={legH + 9} fill={colors.shoe} rx="3.5" ry="1.6" />
-      <ellipse cx="3" cy={legH + 9} fill={colors.shoe} rx="3.5" ry="1.6" />
-      <path d={`M-11 0 L11 0 L13 ${compact ? 22 : 26} L-13 ${compact ? 22 : 26} Z`} fill={colors.top} />
-      <path d="M-11 0 L11 0 L9 8 L-9 8 Z" fill={colors.topShade} opacity="0.55" />
-      <rect fill={colors.top} height="18" width="5" x={-armGap - 5} y="2" rx="1" />
-      <rect fill={colors.top} height="16" width="5" x={armGap} y="4" rx="1" />
-      <Head isA={isA} isGuest={isGuest} neckY={compact ? -2 : -4} />
+      <GroundShadow cx={0} cy={footY + 2} rx={compact ? 12 : 14} />
+      <StandingLegs colors={colors} compact={compact} />
+      <Torso colors={colors} />
+      <Neck />
+      <rect fill={colors.top} height={armLen} width="5" x={-armGap - 5} y={BODY.torsoTop + 1} rx="1" />
+      <rect fill={colors.top} height={armLen - 2} width="5" x={armGap} y={BODY.torsoTop + 3} rx="1" />
+      <Head isA={isA} isGuest={isGuest} y={0} scale={compact ? 0.94 : 1} />
     </g>
   );
 }
@@ -144,30 +197,31 @@ function SeatedDriver({
   const turned = role === 'passenger';
   return (
     <g transform={turned ? 'rotate(-12)' : 'rotate(4)'}>
-      <ellipse cx="0" cy="22" fill="var(--artifact-shadow)" opacity="0.2" rx="14" ry="3" />
+      <ellipse cx="0" cy="28" fill="var(--artifact-shadow)" opacity="0.2" rx="14" ry="3" />
       <path
-        d="M-14 8 Q0 2 14 8 L12 24 Q0 20 -12 24 Z"
+        d="M-14 10 Q0 4 14 10 L12 28 Q0 24 -12 28 Z"
         fill="var(--paper-soft)"
         stroke="var(--artifact-stroke)"
         strokeWidth="1"
       />
-      <path d="M-10 6 L10 6 L11 20 L-11 20 Z" fill={colors.top} />
-      <path d="M-10 6 L10 6 L8 12 L-8 12 Z" fill={colors.topShade} opacity="0.5" />
+      <path d="M-9 8 L9 8 L10 26 L-10 26 Z" fill={colors.top} />
+      <path d="M-9 8 L9 8 L7.5 15 L-7.5 15 Z" fill={colors.topShade} opacity="0.5" />
+      <rect fill="var(--artifact-skin)" height="6" rx="1.5" width="5.5" x="-2.75" y="1.5" />
       {tense ? (
         <>
-          <rect fill={colors.top} height="10" rx="1" width="4" x="-12" y="8" />
-          <rect fill={colors.top} height="8" rx="1" width="4" x="10" y="10" transform="rotate(-18 12 14)" />
+          <rect fill={colors.top} height="12" rx="1" width="4" x="-12" y="10" />
+          <rect fill={colors.top} height="10" rx="1" width="4" x="10" y="12" transform="rotate(-18 12 16)" />
         </>
       ) : (
         <>
-          <rect fill={colors.top} height="12" rx="1" width="4" x="-14" y="10" transform="rotate(24 -12 16)" />
-          <rect fill={colors.top} height="10" rx="1" width="4" x="8" y="12" />
+          <rect fill={colors.top} height="14" rx="1" width="4" x="-14" y="12" transform="rotate(24 -12 18)" />
+          <rect fill={colors.top} height="12" rx="1" width="4" x="8" y="14" />
         </>
       )}
-      <Head isA={isA} neckY={-6} scale={0.88} tilt={tense ? 6 : -8} />
+      <Head isA={isA} y={0} scale={0.9} tilt={tense ? 6 : -8} />
       {tense && (
         <path
-          d="M6 -14 Q10 -18 14 -12"
+          d="M6 -16 Q10 -20 14 -14"
           fill="none"
           stroke="var(--accent)"
           strokeLinecap="round"
@@ -180,19 +234,17 @@ function SeatedDriver({
 }
 
 function PhoneReach({ colors, isA, reaching }: { colors: ColorSet; isA: boolean; reaching: boolean }) {
+  const footY = BODY.torsoBottom - 2 + BODY.legHeight + 1;
   return (
     <g>
-      <GroundShadow cx={0} cy={38} />
-      <rect fill={colors.bottom} height="28" width="4.5" x="-5" y="8" />
-      <rect fill={colors.bottom} height="28" width="4.5" x="0.5" y="8" />
-      <ellipse cx="-2.5" cy="37" fill={colors.shoe} rx="3.5" ry="1.6" />
-      <ellipse cx="3" cy="37" fill={colors.shoe} rx="3.5" ry="1.6" />
-      <path d="M-11 0 L11 0 L13 26 L-13 26 Z" fill={colors.top} />
-      <path d="M-11 0 L11 0 L9 8 L-9 8 Z" fill={colors.topShade} opacity="0.55" />
+      <GroundShadow cx={0} cy={footY + 2} />
+      <StandingLegs colors={colors} />
+      <Torso colors={colors} />
+      <Neck />
       {reaching ? (
         <>
-          <rect fill={colors.top} height="16" width="5" x="-14" y="4" rx="1" transform="rotate(28 -11 12)" />
-          <rect fill={colors.top} height="14" width="5" x="8" y="6" rx="1" />
+          <rect fill={colors.top} height="18" width="5" x="-14" y="9" rx="1" transform="rotate(28 -11 18)" />
+          <rect fill={colors.top} height="16" width="5" x="8" y="10" rx="1" />
           <rect
             fill="var(--paper-elevated)"
             height="14"
@@ -201,14 +253,14 @@ function PhoneReach({ colors, isA, reaching }: { colors: ColorSet; isA: boolean;
             strokeWidth="1"
             width="8"
             x="14"
-            y="-2"
+            y="0"
           />
-          <circle cx="18" cy="6" fill="var(--accent)" opacity="0.35" r="1.5" />
+          <circle cx="18" cy="8" fill="var(--accent)" opacity="0.35" r="1.5" />
         </>
       ) : (
         <>
-          <rect fill={colors.top} height="16" width="5" x="-12" y="4" rx="1" />
-          <rect fill={colors.top} height="14" width="5" x="6" y="2" rx="1" transform="rotate(-32 8 9)" />
+          <rect fill={colors.top} height="18" width="5" x="-12" y="9" rx="1" />
+          <rect fill={colors.top} height="16" width="5" x="6" y="7" rx="1" transform="rotate(-32 8 15)" />
           <rect
             fill="var(--paper-elevated)"
             height="14"
@@ -217,41 +269,107 @@ function PhoneReach({ colors, isA, reaching }: { colors: ColorSet; isA: boolean;
             strokeWidth="1.2"
             width="8"
             x="-22"
-            y="-4"
+            y="-2"
           />
-          <circle cx="-18" cy="4" fill="var(--gold)" opacity="0.45" r="2" />
+          <circle cx="-18" cy="6" fill="var(--gold)" opacity="0.45" r="2" />
         </>
       )}
-      <Head isA={isA} neckY={-4} />
+      <Head isA={isA} y={0} />
     </g>
   );
 }
 
 function SitTable({ colors, isA, isGuest = false }: { colors: ColorSet; isA: boolean; isGuest?: boolean }) {
+  const floorY = 22;
+  const seatY = 10;
+  const torsoTop = -13;
+  const shoulderHalf = 6;
+  const seatHalf = 7;
+  const neckH = 4.5;
+  const neckW = 5;
+  const headY = torsoTop - neckH;
   return (
-    <g transform="translate(0 6)">
-      <ellipse cx="0" cy="18" fill="var(--artifact-shadow)" opacity="0.18" rx="12" ry="2.5" />
-      <path d="M-12 4 Q0 -2 12 4 L10 16 Q0 12 -10 16 Z" fill={colors.top} />
-      <rect fill={colors.top} height="8" width="4" x="-10" y="6" rx="1" />
-      <rect fill={colors.top} height="8" width="4" x="6" y="6" rx="1" />
-      <Head isA={isA} isGuest={isGuest} neckY={-8} scale={0.82} />
+    <g>
+      <GroundShadow cx={0} cy={floorY} rx={11} ry={2.5} />
+      <path
+        d={`M-3.5 ${seatY + 2} L-3.5 ${floorY - 2}`}
+        fill="none"
+        stroke={colors.bottom}
+        strokeLinecap="round"
+        strokeWidth="4"
+      />
+      <path
+        d={`M2.5 ${seatY + 2} L2.5 ${floorY - 2}`}
+        fill="none"
+        stroke={colors.bottom}
+        strokeLinecap="round"
+        strokeWidth="4"
+      />
+      <ellipse cx="-3.5" cy={floorY - 1.5} fill={colors.shoe} rx="3.2" ry="1.5" />
+      <ellipse cx="2.5" cy={floorY - 1.5} fill={colors.shoe} rx="3.2" ry="1.5" />
+      <path
+        d={`M-${seatHalf} ${seatY} L${seatHalf} ${seatY - 1} L${seatHalf + 1} ${seatY + 5} L-${seatHalf + 1} ${seatY + 6} Z`}
+        fill={colors.bottom}
+      />
+      <path
+        d={`M-${shoulderHalf} ${torsoTop} L${shoulderHalf} ${torsoTop} L${seatHalf} ${seatY} L-${seatHalf} ${seatY} Z`}
+        fill={colors.top}
+      />
+      <path
+        d={`M-${shoulderHalf} ${torsoTop} L${shoulderHalf} ${torsoTop} L${shoulderHalf - 1} ${torsoTop + 7} L-${shoulderHalf - 1} ${torsoTop + 7} Z`}
+        fill={colors.topShade}
+        opacity="0.5"
+      />
+      <rect fill="var(--artifact-skin)" height={neckH} rx="1.5" width={neckW} x={-neckW / 2} y={torsoTop - neckH + 0.5} />
+      <rect
+        fill={colors.top}
+        height="10"
+        width="3.5"
+        x={-shoulderHalf - 4}
+        y={torsoTop + 2}
+        rx="1"
+        transform={`rotate(14 ${-shoulderHalf - 2} ${torsoTop + 7})`}
+      />
+      <rect
+        fill={colors.top}
+        height="10"
+        width="3.5"
+        x={shoulderHalf + 0.5}
+        y={torsoTop + 2}
+        rx="1"
+        transform={`rotate(-12 ${shoulderHalf + 2} ${torsoTop + 7})`}
+      />
+      <Head isA={isA} isGuest={isGuest} y={headY} scale={0.93} />
     </g>
   );
 }
 
-function ProfileClose({ colors, isA }: { colors: ColorSet; isA: boolean }) {
+function FaceClose({
+  colors,
+  isA,
+  isGuest = false,
+}: {
+  colors: ColorSet;
+  isA: boolean;
+  isGuest?: boolean;
+}) {
+  const torsoTop = 8;
+  const torsoBottom = 36;
   return (
-    <g>
-      <ellipse cx="0" cy="4" fill="var(--paper-elevated)" rx="16" ry="18" stroke="var(--accent-dark)" strokeWidth="1.2" />
-      <ellipse cx="0" cy="2" fill="var(--artifact-skin)" rx="13" ry="14" />
-      {isA ? (
-        <path d="M-10 -6 Q0 -14 8 -4 L6 0 Q0 -6 -6 0 Z" fill={colors.hair} />
-      ) : (
-        <path d="M-9 -8 Q0 -16 9 -8 L9 -2 Q0 -8 -9 -2 Z" fill={colors.hair} />
-      )}
-      <circle cx="-4" cy="0" fill="var(--accent-dark)" r="2.2" />
-      <path d="M-2 6 Q0 8 2 6" fill="none" stroke="var(--accent)" strokeLinecap="round" strokeWidth="1" />
-      <path d="M8 0 L14 0" stroke="var(--accent)" strokeLinecap="round" strokeWidth="1.2" opacity="0.6" />
+    <g transform="rotate(7)">
+      <path
+        d={`M-${BODY.shoulderHalf - 1} ${torsoTop} L${BODY.shoulderHalf - 1} ${torsoTop} L${BODY.hipHalf} ${torsoBottom} L-${BODY.hipHalf} ${torsoBottom} Z`}
+        fill={colors.top}
+      />
+      <path
+        d={`M-${BODY.shoulderHalf - 1} ${torsoTop} L${BODY.shoulderHalf - 1} ${torsoTop} L${BODY.shoulderHalf - 2.5} ${torsoTop + 10} L-${BODY.shoulderHalf - 2.5} ${torsoTop + 10} Z`}
+        fill={colors.topShade}
+        opacity="0.55"
+      />
+      <rect fill="var(--artifact-skin)" height="7" rx="2" width="6" x="-3" y="0.5" />
+      <rect fill={colors.top} height="14" width="5" x="-14" y="12" rx="1" transform="rotate(18 -11 19)" />
+      <rect fill={colors.top} height="14" width="5" x="9" y="12" rx="1" transform="rotate(-16 11 19)" />
+      <Head isA={isA} isGuest={isGuest} y={0} scale={1} lookToward="right" tilt={-4} />
     </g>
   );
 }
@@ -265,15 +383,16 @@ function HandsPose({
   isA: boolean;
   reaching: boolean;
 }) {
+  const footY = BODY.torsoBottom - 2 + BODY.legHeight + 1;
   return (
     <g>
-      <GroundShadow cx={0} cy={38} rx={12} />
-      <rect fill={colors.bottom} height="26" width="4" x="-4" y="10" />
-      <rect fill={colors.bottom} height="26" width="4" x="1" y="10" />
-      <path d="M-10 2 L10 2 L12 24 L-12 24 Z" fill={colors.top} />
+      <GroundShadow cx={0} cy={footY + 2} rx={12} />
+      <StandingLegs colors={colors} />
+      <Torso colors={colors} bottom={34} />
+      <Neck />
       {reaching ? (
         <path
-          d="M10 8 C18 6 22 10 20 14 C18 16 14 14 12 12"
+          d="M10 12 C18 10 22 14 20 18 C18 20 14 18 12 16"
           fill="var(--artifact-skin)"
           stroke="var(--artifact-stroke)"
           strokeLinecap="round"
@@ -281,14 +400,14 @@ function HandsPose({
         />
       ) : (
         <path
-          d="M-10 8 C-18 6 -22 10 -20 14 C-18 16 -14 14 -12 12"
+          d="M-10 12 C-18 10 -22 14 -20 18 C-18 20 -14 18 -12 16"
           fill="var(--artifact-skin)"
           stroke="var(--artifact-stroke)"
           strokeLinecap="round"
           strokeWidth="1"
         />
       )}
-      <Head isA={isA} neckY={-2} scale={0.9} />
+      <Head isA={isA} y={0} scale={0.94} />
     </g>
   );
 }
@@ -296,30 +415,77 @@ function HandsPose({
 function Head({
   isA,
   isGuest = false,
-  neckY,
+  y = 0,
   scale = 1,
   tilt = 0,
+  lookToward = 'center',
 }: {
   isA: boolean;
   isGuest?: boolean;
-  neckY: number;
+  y?: number;
   scale?: number;
   tilt?: number;
+  lookToward?: 'left' | 'right' | 'center';
 }) {
   const hair = isGuest ? palette.guest.hair : isA ? palette['partner-a'].hair : palette['partner-b'].hair;
+  const simple = scale < 0.88;
+  const eyeY = -9;
+  const gazeX = lookToward === 'right' ? 0.55 : lookToward === 'left' ? -0.55 : 0;
+
   return (
-    <g transform={`translate(0 ${neckY}) scale(${scale}) rotate(${tilt})`}>
-      <rect fill="var(--artifact-skin)" height="7" rx="1" width="7" x="-3.5" y="0" />
-      <ellipse cx="0" cy="-10" fill="var(--artifact-skin)" rx="9" ry="10" />
-      {isA ? (
-        <path d="M-9 -12 Q0 -22 9 -12 L8 -4 Q0 -10 -8 -4 Z" fill={hair} />
-      ) : isGuest ? (
-        <path d="M-8 -12 Q0 -20 8 -12 L7 -5 Q0 -9 -7 -5 Z" fill={hair} />
-      ) : (
-        <path d="M-9 -14 Q0 -24 9 -14 L9 -6 Q0 -12 -9 -6 Z" fill={hair} />
+    <g transform={`translate(0 ${y}) scale(${scale}) rotate(${tilt})`}>
+      {!isA && !isGuest && (
+        <path
+          d="M-10.4 -15.2 L-10.6 -3.6 Q-9 -1.6 -8 -5 Q-9 -8.4 -10.4 -15.2 Z"
+          fill={hair}
+        />
       )}
-      <circle cx="-3" cy="-10" fill="var(--accent-dark)" r="1.2" opacity="0.85" />
-      <circle cx="3" cy="-10" fill="var(--accent-dark)" r="1.2" opacity="0.85" />
+      {!isA && !isGuest && (
+        <path
+          d="M10.4 -15.2 L10.6 -3.6 Q9 -1.6 8 -5 Q9 -8.4 10.4 -15.2 Z"
+          fill={hair}
+        />
+      )}
+      <ellipse cx="0" cy="-9" fill="var(--artifact-skin)" rx="8.5" ry="9.5" />
+      {isA ? (
+        <>
+          <ellipse cx="0" cy="-17.2" fill={hair} rx="9.6" ry="4.8" />
+          <path
+            d="M-9.6 -15.2 Q-5 -21.2 0 -20.2 Q5.2 -21.2 9.8 -15 Q10 -12.8 7.8 -12 Q0 -13.6 -7.4 -12 Q-9.6 -12.8 -9.6 -15.2 Z"
+            fill={hair}
+          />
+          <path d="M-9.4 -14.2 Q-10 -10.6 -8.4 -8.2 Q-7.6 -10.8 -8.4 -12.8 Z" fill={hair} />
+          <path d="M9.4 -14.2 Q10.2 -10.6 8.6 -8.2 Q7.8 -10.8 8.6 -12.8 Z" fill={hair} />
+        </>
+      ) : isGuest ? (
+        <>
+          <ellipse cx="0" cy="-17" fill={hair} rx="9" ry="4.5" />
+          <path
+            d="M-9.2 -15 Q-2.2 -20.6 9.2 -14.6 L8.6 -11.8 Q4.6 -13.2 0 -12.8 Q-4.2 -13.4 -8.2 -11.4 Z"
+            fill={hair}
+          />
+          <path d="M-9 -13.2 L-9.2 -9.8 Q-8 -10.8 -8.2 -12.8 Z" fill={hair} />
+          <path d="M9 -13.2 L9.2 -9.8 Q8 -10.8 8.2 -12.8 Z" fill={hair} />
+        </>
+      ) : (
+        <path
+          d="M-11.2 -15.2 Q0 -28.4 11.2 -15.2 L11.2 -3.2 Q7.6 -7 5.8 -5.2 L5.8 -9 Q0 -12.8 -5.8 -9 L-5.8 -5.2 Q-7.6 -7 -11.2 -3.2 Z"
+          fill={hair}
+        />
+      )}
+      {simple ? (
+        <>
+          <circle cx={-2.6 + gazeX * 0.4} cy={eyeY} fill="var(--accent-dark)" opacity="0.8" r="0.8" />
+          <circle cx={2.6 + gazeX * 0.4} cy={eyeY} fill="var(--accent-dark)" opacity="0.8" r="0.8" />
+        </>
+      ) : (
+        <>
+          <ellipse cx={-2.6 + gazeX * 0.25} cy={eyeY} fill="var(--paper-elevated)" rx="1.3" ry="0.95" />
+          <ellipse cx={2.6 + gazeX * 0.25} cy={eyeY} fill="var(--paper-elevated)" rx="1.3" ry="0.95" />
+          <circle cx={-2.45 + gazeX} cy={eyeY} fill="var(--accent-dark)" opacity="0.85" r="0.7" />
+          <circle cx={2.75 + gazeX} cy={eyeY} fill="var(--accent-dark)" opacity="0.85" r="0.7" />
+        </>
+      )}
     </g>
   );
 }

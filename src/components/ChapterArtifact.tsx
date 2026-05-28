@@ -118,8 +118,8 @@ function CoupleBubbleShield() {
         strokeWidth="1"
         opacity="0.45"
       />
-      <Figure facing="right" pose="standing-close" variant="partner-a" x={88} y={98} scale={0.82} />
-      <Figure facing="left" pose="standing-close" variant="partner-b" x={152} y={96} scale={0.86} />
+      <Figure facing="right" pose="standing-close" variant="partner-a" x={88} y={88} scale={0.74} />
+      <Figure facing="left" pose="standing-close" variant="partner-b" x={152} y={86} scale={0.78} />
       <path
         d="M108 72 Q120 62 132 72"
         fill="none"
@@ -166,8 +166,8 @@ function CarDashboard() {
         strokeWidth="1"
         opacity="0.35"
       />
-      <Figure facing="right" pose="seated-driver" variant="partner-b" x={78} y={108} scale={0.92} />
-      <Figure facing="left" pose="seated-passenger" variant="partner-a" x={162} y={110} scale={0.88} />
+      <Figure facing="right" pose="seated-driver" variant="partner-b" x={78} y={100} scale={0.92} />
+      <Figure facing="left" pose="seated-passenger" variant="partner-a" x={162} y={102} scale={0.88} />
       <path
         d="M108 92 Q120 84 132 92"
         fill="none"
@@ -205,8 +205,8 @@ function StyleManual() {
       <rect fill={`url(#${id}-paper)`} height="180" width="240" />
       <GroundShadow cx={52} cy={148} rx={14} />
       <GroundShadow cx={188} cy={148} rx={14} />
-      <Figure facing="right" pose="standing" variant="partner-a" x={52} y={108} scale={0.78} />
-      <Figure facing="left" pose="lean-away" variant="partner-b" x={188} y={106} scale={0.82} />
+      <Figure facing="right" pose="standing" variant="partner-a" x={52} y={98} scale={0.72} />
+      <Figure facing="left" pose="lean-away" variant="partner-b" x={188} y={96} scale={0.76} />
       <path
         d="M72 96 Q120 72 168 96"
         fill="none"
@@ -331,8 +331,8 @@ function DoorLamp() {
         y="56"
       />
       <circle cx="72" cy="76" fill="var(--gold)" r="2.5" />
-      <Figure facing="right" pose="standing-close" variant="partner-a" x={118} y={112} scale={0.72} />
-      <Figure facing="left" pose="standing-close" variant="partner-b" x={148} y={110} scale={0.76} />
+      <Figure facing="right" pose="standing-close" variant="partner-a" x={118} y={102} scale={0.66} />
+      <Figure facing="left" pose="standing-close" variant="partner-b" x={148} y={100} scale={0.7} />
       <path
         d="M104 76 L118 76"
         fill="none"
@@ -370,8 +370,8 @@ function GoToTether() {
       <rect fill={`url(#${id}-paper)`} height="180" width="240" />
       <GroundShadow cx={68} cy={148} rx={14} />
       <GroundShadow cx={172} cy={148} rx={14} />
-      <Figure facing="right" pose="reach-phone" variant="partner-a" x={68} y={108} scale={0.82} />
-      <Figure facing="left" pose="respond-phone" variant="partner-b" x={172} y={106} scale={0.84} />
+      <Figure facing="right" pose="reach-phone" variant="partner-a" x={68} y={98} scale={0.76} />
+      <Figure facing="left" pose="respond-phone" variant="partner-b" x={172} y={96} scale={0.78} />
       <path
         d="M88 78 Q120 48 152 78"
         fill="none"
@@ -405,8 +405,8 @@ function PartyThirds() {
       <ellipse cx="120" cy="114" fill="var(--paper-soft)" rx="42" ry="13" />
       <PlaceCard initial="1" x={92} y={108} />
       <PlaceCard initial="2" x={124} y={108} />
-      <Figure facing="right" pose="sit-table" variant="partner-a" x={88} y={82} scale={0.72} />
-      <Figure facing="left" pose="sit-table" variant="partner-b" x={152} y={80} scale={0.74} />
+      <Figure facing="right" pose="sit-table" variant="partner-a" x={88} y={72} scale={0.68} />
+      <Figure facing="left" pose="sit-table" variant="partner-b" x={152} y={70} scale={0.7} />
       <path
         d="M96 76 Q120 68 144 76"
         fill="none"
@@ -414,7 +414,7 @@ function PartyThirds() {
         strokeLinecap="round"
         strokeWidth="2"
       />
-      <Figure facing="right" pose="standing" variant="guest" x={120} y={48} scale={0.55} />
+      <Figure facing="right" pose="standing" variant="guest" x={120} y={40} scale={0.52} />
       <circle
         cx="120"
         cy="52"
@@ -452,8 +452,8 @@ function SameSideTable() {
       <text fill="var(--accent-dark)" fontSize="8" fontWeight="700" textAnchor="middle" x="120" y="98">
         the problem
       </text>
-      <Figure facing="right" pose="sit-table" variant="partner-a" x={82} y={118} scale={0.68} />
-      <Figure facing="right" pose="sit-table" variant="partner-b" x={108} y={116} scale={0.72} />
+      <Figure facing="right" pose="sit-table" variant="partner-a" x={82} y={108} scale={0.64} />
+      <Figure facing="right" pose="sit-table" variant="partner-b" x={108} y={106} scale={0.68} />
       <path
         d="M82 82 L82 88 M108 80 L108 88 M132 80 L132 88"
         stroke="var(--line-strong)"
@@ -478,16 +478,17 @@ function EyeGaze() {
     <svg aria-hidden="true" className="chapter-artifact__svg" viewBox="0 0 240 180">
       <SceneDefs id={id} />
       <rect fill={`url(#${id}-paper)`} height="180" width="240" />
-      <Figure facing="right" pose="profile-close" variant="partner-a" x={78} y={92} scale={1.05} />
-      <Figure facing="left" pose="profile-close" variant="partner-b" x={162} y={90} scale={1.08} />
+      <ellipse cx="120" cy="98" fill="var(--accent-soft)" opacity="0.18" rx="58" ry="32" />
+      <Figure facing="right" pose="face-close" variant="partner-a" x={88} y={92} scale={0.98} />
+      <Figure facing="left" pose="face-close" variant="partner-b" x={152} y={92} scale={0.98} />
       <path
-        d="M98 88 Q120 76 142 86"
+        d="M108 78 Q120 68 132 78"
         fill="none"
         stroke="var(--accent)"
         strokeLinecap="round"
         strokeWidth="1.8"
       />
-      <circle cx="120" cy="78" fill="var(--accent)" opacity="0.2" r="8" />
+      <circle cx="120" cy="74" fill="var(--accent)" opacity="0.2" r="8" />
       <path
         d="M68 58 Q120 42 172 58"
         fill="none"
@@ -507,8 +508,8 @@ function HealingHands() {
       <SceneDefs id={id} />
       <rect fill={`url(#${id}-paper)`} height="180" width="240" />
       <GroundShadow cx={120} cy={152} rx={44} ry={8} />
-      <Figure facing="right" pose="hands-reach" variant="partner-a" x={82} y={108} scale={0.82} />
-      <Figure facing="left" pose="hands-offer" variant="partner-b" x={158} y={106} scale={0.84} />
+      <Figure facing="right" pose="hands-reach" variant="partner-a" x={82} y={98} scale={0.76} />
+      <Figure facing="left" pose="hands-offer" variant="partner-b" x={158} y={96} scale={0.78} />
       <circle cx="120" cy="98" fill="var(--gold)" opacity="0.22" r="18" />
       <path
         d="M104 96 Q120 88 136 96"

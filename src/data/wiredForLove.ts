@@ -75,7 +75,7 @@ export const chapters: Chapter[] = [
     subtitle: 'How You Can Keep Each Other Safe and Secure',
     principle: 'Creating a couple bubble lets partners keep each other safe and secure.',
     tatkinFrame:
-      'Tatkin uses couple bubble for the membrane, cocoon, or womb partners build together. It is not isolation. It is a shared field with implicit guarantees: I will not leave you, I will not frighten you on purpose, I will relieve your distress even when I caused it, and this relationship outranks being right or looking good to outsiders.',
+      'Tatkin uses couple bubble for the membrane, cocoon, or womb partners build together. It is not isolation. It is a shared field with implicit guarantees: I will not leave you, I will not frighten you on purpose, I will relieve your distress even when I caused it, this relationship outranks being right or looking good to outsiders, and you hear important news from each other first.',
     bookStory: {
       label: 'Jenny and Bradley vs. Bram and Greta',
       setup:
@@ -110,12 +110,12 @@ export const chapters: Chapter[] = [
       {
         term: 'Couple Bubble',
         definition:
-          'The mutually constructed protective field where both partners treat the relationship as a primary source of safety.',
+          'The shared protective field you build together so both partners feel the relationship comes first when stress hits. Without it, outside pressures pull you apart instead of through crises together.',
       },
       {
         term: 'Secure Functioning',
         definition:
-          'A couple style built on mutual protection, fairness, fast repair, and explicit agreements.',
+          'How a couple operates when both partners protect each other, repair quickly, and keep agreements explicit. Security is co-created daily, not guaranteed by vows alone.',
       },
     ],
     visual: {
@@ -168,12 +168,12 @@ export const chapters: Chapter[] = [
       {
         term: 'Primitives',
         definition:
-          'Fast, threat-geared brain parts (including amygdala-driven responses) that act before full assessment.',
+          'Fast, threat-first brain circuits that fire before you fully understand what is happening. In fights they often run the show first, which is why tone and timing derail talks before either partner means to.',
       },
       {
         term: 'Ambassadors',
         definition:
-          'Slower cortical systems that remember context, empathize, and can keep primitives in check when time allows.',
+          'Slower brain systems that remember context, empathize, and negotiate. Repair only happens when they catch up and can calm the alarm enough to solve the real problem.',
       },
     ],
     visual: {
@@ -202,7 +202,7 @@ export const chapters: Chapter[] = [
     },
     whatItTeaches: [
       'Pursuit and distance are often protective, not character flaws.',
-      'Wild island left brains can weaponize words; wild waves can flood with reassurance demands.',
+      'Wild islands struggle to name feelings and read a partner\'s cues; wild waves can flood with reassurance demands.',
       'Secure relating grows from accurate manuals, not labels used as ammunition.',
     ],
     recognizeIt: [
@@ -223,13 +223,25 @@ export const chapters: Chapter[] = [
       ],
     },
     glossaryTerms: [
-      { term: 'Anchor', definition: 'A more secure style: comfortable with closeness and autonomy together.' },
-      { term: 'Island', definition: 'A distancing style that protects autonomy, privacy, and self-regulation.' },
-      { term: 'Wave', definition: 'A pursuing style that protects connection, reassurance, and contact.' },
+      {
+        term: 'Anchor',
+        definition:
+          'A style comfortable with both closeness and alone time without panicking. Anchors still have sore spots, but they handle space and contact with more flexibility than islands or waves.',
+      },
+      {
+        term: 'Island',
+        definition:
+          'A style that pulls toward solitude and self-soothing when stressed. Withdrawal or snap-back usually protects independence, not rejection of you.',
+      },
+      {
+        term: 'Wave',
+        definition:
+          'A style that moves toward contact and reassurance when stressed. Checking in or pursuing usually protects connection and fear of being left, not neediness for its own sake.',
+      },
     ],
     visual: {
       type: 'attachment-triad',
-      caption: 'Three styles, three core fears: engulfment, abandonment, or balance.',
+      caption: 'Three styles, three core needs: space, reassurance, or both with flexibility.',
     },
     rememberThis: 'Ask what the behavior protects before you judge the behavior.',
     sourceStatus: 'Grounded in ch. 3 typology, wild island/wild wave sections, Chiana/Carlos and Jaden/Kaylee.',
@@ -277,11 +289,12 @@ export const chapters: Chapter[] = [
       {
         term: 'Three or Four Bad Things',
         definition:
-          'Tatkin\'s shorthand for a partner\'s main vulnerabilities; knowing them removes guesswork under stress.',
+          'The handful of topics or situations that reliably spike your partner\'s threat response. Tracking them lets you antidote early instead of guessing wrong under stress.',
       },
       {
         term: 'Antidote',
-        definition: 'A specific soothing move matched to a style and vulnerability, not generic comfort.',
+        definition:
+          'The exact move that calms a specific vulnerability for your partner\'s style, like space with a return time for an island. Generic comfort misses the target when primitives are already lit.',
       },
     ],
     visual: {
@@ -333,11 +346,13 @@ export const chapters: Chapter[] = [
     glossaryTerms: [
       {
         term: 'Launching',
-        definition: 'A deliberate send-off ritual that orients partners to each other before the day pulls them apart.',
+        definition:
+          'A deliberate morning or departure ritual that orients you to each other before work or phones take over. It keeps the bond online through separation so reunion is easier.',
       },
       {
         term: 'Landing',
-        definition: 'A deliberate return or bedtime ritual that closes the day as a team.',
+        definition:
+          'A deliberate reunion or bedtime ritual where partner comes first before tasks or devices. Full docking here often prevents hours of distance or fighting later.',
       },
     ],
     visual: {
@@ -355,7 +370,7 @@ export const chapters: Chapter[] = [
     subtitle: 'How to Remain Available to One Another',
     principle: 'Partners serve as each other\'s primary go-to people, tethered and available 24/7 in spirit.',
     tatkinFrame:
-      'Tatkin\'s sixth principle: be the first person your partner can reach for in body and mind. Mary and Pierce, anchor examples, tell each other everything. Eden and David illustrate tethering under stress. Brian and Marsha show what breaks when availability is asymmetric. High maintenance here means mutual willingness, not pejorative demand.',
+      'Tatkin\'s sixth principle: be the first person your partner can reach for in body and mind. Mary and Pierce, anchor examples, tell each other everything. Eden and David vow to share news with each other first and keep private details inside the bubble. Brian and Marsha show what breaks when a friend or sibling hears distress first. High maintenance here means mutual willingness, not pejorative demand.',
     bookStory: {
       label: 'Mary and Pierce, Brian and Marsha',
       setup:
@@ -389,11 +404,13 @@ export const chapters: Chapter[] = [
     glossaryTerms: [
       {
         term: 'Go-To Person',
-        definition: 'The primary partner you count on for relief, truth, and contact under stress.',
+        definition:
+          'The first person you reach for with distress and big news, and who reaches for you the same way. If someone else hears it first, your partner starts to feel replaced.',
       },
       {
         term: 'Tethering',
-        definition: 'The felt lifeline between partners when both agree to mutual availability.',
+        definition:
+          'The felt lifeline when both partners agree to be reachable and receptive. Adult tethering should be mutual, unlike the one-way tethering many people had as children.',
       },
     ],
     visual: {
@@ -411,11 +428,11 @@ export const chapters: Chapter[] = [
     subtitle: 'How to Include Outsiders',
     principle: 'Partners prevent each other from becoming a third wheel when relating to outsiders.',
     tatkinFrame:
-      'Tatkin\'s seventh principle: thirds (people, priorities, screens) can amplify a strong bubble or pierce a weak one. Perry and Landa attend a work party united; they joke from confidence in their bubble, protect each other in groups, and debrief afterward. Number one is shown in small and large acts, not assumed.',
+      'Tatkin\'s seventh principle: thirds (people, children, work, competing loyalties) can amplify a strong bubble or pierce a weak one. Perry and Landa host family dinners united; they plan ahead, protect each other with in-laws and guests, and debrief afterward. Number one is shown in small and large acts, not assumed.',
     bookStory: {
-      label: 'Perry and Landa at the office party',
+      label: 'Perry and Landa hosting family dinner',
       setup:
-        'Perry and Landa face outsider social risk together. They signal loyalty in public, include each other in conversations, and leave as a team. Their humor comes from bubble strength, not denial.',
+        'Perry and Landa regularly host family suppers with in-laws and guests. They agree on strategy beforehand, check in with eye contact during the meal, and protect each other without splitting the bubble. Afterward they debrief in the kitchen.',
       tatkinPoint:
         'When partner is clearly number one, thirds lose threat power. Assumed loyalty erodes faster than demonstrated loyalty.',
       sourceRef: 'Wired for Love, ch. 7 (Perry/Landa, thirds, public protection)',
@@ -434,7 +451,7 @@ export const chapters: Chapter[] = [
       'Before a social event, agree on one protection move (check-ins, rescue phrases, early exit plan). Afterward, ask: did we make each other number one?',
     practice: {
       title: 'Thirds and public protection inventory',
-      whenToUse: 'When family, friends, work, or screens compete with the bubble.',
+      whenToUse: 'When family, friends, work, or children compete with the bubble.',
       steps: [
         'List people and priorities that pull attention away from the partnership.',
         'Mark which ones become thirds (competing go-to bonds) versus healthy outside ties.',
@@ -445,11 +462,13 @@ export const chapters: Chapter[] = [
     glossaryTerms: [
       {
         term: 'Thirds',
-        definition: 'People or forces that insert themselves between partners and weaken the bubble.',
+        definition:
+          'People, work, or competing loyalties that pull attention between partners. They threaten the bubble when treated as the primary go-to instead of the relationship.',
       },
       {
         term: 'Public Protection',
-        definition: 'Knowing how to shield your partner\'s dignity and nervous system in social settings.',
+        definition:
+          'Showing a unified front in groups so your partner never feels thrown under the bus. It signals that the partnership outranks looking good or being right to outsiders.',
       },
     ],
     visual: {
@@ -469,12 +488,12 @@ export const chapters: Chapter[] = [
     tatkinFrame:
       'Tatkin\'s eighth principle rejects win-lose combat inside the bubble. Losing is not allowed when it means humiliation. Partners in a secure bubble pick up threat cues, repair quickly, and use exercises like Naikan gratefulness inventory to restore fairness and memory of what the other gives.',
     bookStory: {
-      label: 'Couples who stockpile versus couples who repair',
+      label: 'Kathleen and Dennis after job stress',
       setup:
-        'Distressed partners fight to be right and leave residue. Secure-functioning partners treat conflict as shared data: stay close enough to read faces, wave flags when primitives rise, and balance inequities with good for me, good for you.',
+        'When Dennis withdraws over a job demotion, Kathleen insists they talk instead of letting bad memories harden. They negotiate until both feel the solution works, using good for me, good for you rather than hit-and-run shutdown.',
       tatkinPoint:
-        'Fighting well means both people remain knowable and safe. Victory that requires your partner\'s humiliation is a bubble loss.',
-      sourceRef: 'Wired for Love, ch. 8 (eighth principle, Naikan gratefulness inventory, fight-well rules)',
+        'Fighting well means both people remain knowable and safe. Losing is not allowed when it means humiliation; repair and fairness restore the bubble.',
+      sourceRef: 'Wired for Love, ch. 8 (Kathleen/Dennis, eighth principle, Naikan gratefulness inventory, fight-well rules)',
     },
     whatItTeaches: [
       'Do not ignore problems, but do not prosecute your partner either.',
@@ -501,11 +520,13 @@ export const chapters: Chapter[] = [
     glossaryTerms: [
       {
         term: 'Fight Well',
-        definition: 'Conflict with guardrails: dignity intact, closeness maintained, repair prioritized.',
+        definition:
+          'Arguing without humiliation, with both partners on the same side of the problem and repair prioritized. Win-lose combat inside the bubble erodes the safety the relationship runs on.',
       },
       {
         term: 'Naikan',
-        definition: 'Japanese reflective practice Tatkin adapts for couples to restore grateful perspective.',
+        definition:
+          'A three-column inventory: what my partner gave me, what I gave back, and what trouble I caused. Tatkin uses it to restore fair accounting when resentment outruns memory of care.',
       },
     ],
     visual: {
@@ -513,8 +534,8 @@ export const chapters: Chapter[] = [
       caption: 'Same side of the table: the problem sits between you, not inside your partner.',
     },
     rememberThis: 'If you want to jab, name the impulse, then protect the bond instead.',
-    sourceStatus: 'Grounded in ch. 8 eighth principle, Naikan exercise, win-win fighting frame.',
-    sourceRefs: ['Ch. 8: fight well principle', 'Ch. 8: Naikan gratefulness inventory'],
+    sourceStatus: 'Grounded in ch. 8 eighth principle, Kathleen/Dennis, Naikan exercise, win-win fighting frame.',
+    sourceRefs: ['Ch. 8: fight well principle', 'Ch. 8: Kathleen/Dennis', 'Ch. 8: Naikan gratefulness inventory'],
   },
   {
     id: 'eye-contact',
@@ -533,7 +554,7 @@ export const chapters: Chapter[] = [
       sourceRef: 'Wired for Love, ch. 9 (Consuela/Jose, eye contact, rekindling love up close)',
     },
     whatItTeaches: [
-      'Gaze triangulates safety; left-eye cues matter for emotional read.',
+      'Up-close gaze helps read safety; Tatkin notes emotional cues often come from the left eye.',
       'Do not wait until crisis to practice eye contact rituals.',
       'Vary approach, but prioritize face-to-face presence over clever speeches.',
     ],
@@ -557,11 +578,13 @@ export const chapters: Chapter[] = [
     glossaryTerms: [
       {
         term: 'Near Senses',
-        definition: 'Close-range channels (eyes, touch, scent) that vet safety and desire.',
+        definition:
+          'Close-range channels like gaze, touch, and scent that read safety and desire. Broken eye contact or missing touch can spike primitives before words get parsed.',
       },
       {
         term: 'Stranger-ness',
-        definition: 'Tatkin\'s term for the slight unfamiliarity that keeps attraction alive at close range.',
+        definition:
+          'The slight unfamiliarity Tatkin says keeps desire alive up close, distinct from weirdness or full mystery. Small shifts in approach help partners feel chosen again instead of taken for granted.',
       },
     ],
     visual: {
@@ -613,11 +636,13 @@ export const chapters: Chapter[] = [
     glossaryTerms: [
       {
         term: 'Co-Regulation',
-        definition: 'Using presence, voice, and body to help your partner\'s nervous system settle.',
+        definition:
+          'Using presence, voice, and touch to help your partner\'s nervous system settle. Daily co-regulation keeps stress from piling into health problems one person handles alone.',
       },
       {
         term: 'Be Medicine',
-        definition: 'Tatkin\'s phrase for partners who actively reduce each other\'s stress and support health.',
+        definition:
+          'Treating touch, sleep, and stress care as daily health practices inside the partnership. It means catching stress signals early, not only comforting after overload.',
       },
     ],
     visual: {
